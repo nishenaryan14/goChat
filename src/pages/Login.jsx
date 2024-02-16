@@ -2,7 +2,6 @@ import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../firebase";
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import Add from "../img/addavatar.png";
 
 const Login = () => {
   const [err, setErr] = useState(false);
@@ -29,6 +28,7 @@ const Login = () => {
 
           <button type="submit">Sign in</button>
         </form>
+        {err && <span>something went wrong</span>}
         <p>
           You don't have an account? <Link to="/register">Register</Link>
         </p>

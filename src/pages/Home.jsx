@@ -16,9 +16,9 @@ const Home = () => {
         clearInterval(interval);
         setTimeout(() => {
           setIsLoading(false);
-        }, 1000); // Simulate additional loading time after reaching 100%
+        }, 1000);
       }
-    }, 30); // Adjust the interval and loading duration as needed
+    }, 30);
   }, []);
 
   const handleClick = () => {
