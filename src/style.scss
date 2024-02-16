@@ -20,6 +20,12 @@
   margin: 0;
   padding: 0;
 }
+#root {
+  overflow: hidden;
+  height: 100vh;
+  width: 100vw;
+}
+
 /* Style for the scrollbar track (the background) */
 ::-webkit-scrollbar {
   width: 7px; /* Width of the scrollbar */
@@ -147,6 +153,7 @@
 .home {
   background-color: #a7bcff;
   height: 100vh;
+  width: 100vw;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -159,7 +166,7 @@
     display: flex;
     overflow: hidden;
     @include tablet {
-      width: 90%;
+      width: 100%;
     }
   }
   .sidebar {

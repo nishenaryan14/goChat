@@ -26,17 +26,17 @@ const Home = () => {
   };
   return (
     <div className="home">
-      <Loader
+      {/* <Loader
         active={isLoading}
         percentage={loadingPercentage}
         handleClick={handleClick}
       />
-      {!isLoading && (
-        <div className="container">
-          <Sidebar />
-          <Chat />
-        </div>
-      )}
+      {!isLoading && ( */}
+      <div className="container">
+        <Sidebar />
+        <Chat />
+      </div>
+      {/* )} */}
     </div>
   );
 };

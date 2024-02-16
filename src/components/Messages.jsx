@@ -23,7 +23,7 @@ const Messages = () => {
   }, [data.chatId]);
 
   // const chatColor = getChatColor(data.chatId);
-  console.log(messages);
+  // console.log(messages);
   return (
     <div className="messages">
       {messages.map((m) => (
