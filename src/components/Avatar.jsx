@@ -16,6 +16,7 @@ export const StringAvatar = (name) => {
     children: initials,
   };
 };
+
 const stringToColor = (string) => {
   let hash = 0;
   let i;

@@ -11,8 +11,9 @@ import { ChatContext } from "../context/ChatContext";
 import { AuthContext } from "../context/AuthContext"; // Import AuthContext
 import { v4 as uuid } from "uuid";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
+import CloseIcon from "@mui/icons-material/Close";
 
-const Dialog = ({ image, imgURL, setImage, setIsImg }) => {
+const Dialog = ({ image, imgURL, setImage, setIsImg, isImg }) => {
   const { data } = useContext(ChatContext);
   const { currentUser } = useContext(AuthContext); // Get currentUser from AuthContext
 
@@ -30,6 +31,7 @@ const Dialog = ({ image, imgURL, setImage, setIsImg }) => {
         console.log(error);
       },
       () => {
+        setIsImg(false);
         getDownloadURL(uploadTask.snapshot.ref).then(async (downloadURL) => {
           await updateDoc(doc(db, "chats", data.chatId), {
             messages: arrayUnion({
@@ -40,16 +42,30 @@ const Dialog = ({ image, imgURL, setImage, setIsImg }) => {
               img: downloadURL,
             }),
           });
-          setIsImg(false);
           setImage(null);
         });
       }
     );
   };
-
+  const closeDialog = () => {
+    setIsImg(false);
+    setImage(null);
+  };
   return (
     <div className="dialog">
       <div className="dialogImg">
+        {isImg && (
+          <CloseIcon
+            sx={{
+              position: "absolute",
+              top: "5px",
+              right: "5px",
+              color: "black",
+              cursor: "pointer",
+            }}
+            onClick={closeDialog} // Corrected onClick handler
+          />
+        )}
         <img src={imgURL} alt="" />
       </div>
       <div className="dialogBottom">

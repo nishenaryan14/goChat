@@ -39,6 +39,7 @@ const Chat = () => {
       )}
       {isImg && (
         <Dialog
+          isImg={isImg}
           image={image}
           imgURL={imgURL}
           setIsImg={setIsImg}
