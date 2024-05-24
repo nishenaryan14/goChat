@@ -3,7 +3,8 @@ import React, { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { ChatContext } from "../context/ChatContext";
 import { db } from "../firebase";
-
+import { Avatar } from "@mui/material";
+import { StringAvatar } from "./Avatar";
 const Chats = () => {
   const [chats, setChats] = useState({});
 
@@ -11,6 +12,7 @@ const Chats = () => {
   const { dispatch } = useContext(ChatContext);
 
   useEffect(() => {
+    console.log(currentUser.displayName);
     const getChats = () => {
       const unsub = onSnapshot(doc(db, "userChats", currentUser.uid), (doc) => {
         setChats(doc.data());
@@ -39,7 +41,11 @@ const Chats = () => {
               key={chat[0]}
               onClick={() => handleSelect(chat[1].userInfo)}
             >
-              <img src={chat[1].userInfo.photoURL} alt="" />
+              {chat[1].userInfo.photoURL ? (
+                <img src={chat[1].userInfo.photoURL} alt="" />
+              ) : (
+                <Avatar {...StringAvatar(chat[1].userInfo.displayName)} />
+              )}
               <div className="userChatInfo">
                 <span>{chat[1].userInfo.displayName}</span>
                 <p>{chat[1].lastMessage?.text}</p>

@@ -3,41 +3,41 @@ import Chat from "../components/Chat";
 import { useEffect, useState } from "react";
 import Loader from "../components/Loader";
 import { AuthContext } from "../context/AuthContext";
+
 const Home = () => {
   const [isLoading, setIsLoading] = useState(true);
-  const [loadingPercentage, setLoadingPercentage] = useState(0);
-  useEffect(() => {
-    let percentage = 0;
-    const interval = setInterval(() => {
-      percentage += 1;
-      setLoadingPercentage(percentage);
+  const [resize, setResize] = useState(false);
 
-      if (percentage >= 100) {
-        clearInterval(interval);
-        setTimeout(() => {
-          setIsLoading(false);
-        }, 1000);
-      }
-    }, 30);
+  useEffect(() => {
+    const handleResize = () => {
+      console.log("Resized!");
+      setResize(window.innerWidth <= 600);
+    };
+    console.log("Resize state:", resize);
+
+    // Add event listener for resize when viewport width is 600px or less
+    if (window.innerWidth <= 600) {
+      window.addEventListener("resize", handleResize);
+    }
+
+    // Cleanup: Remove event listener when component unmounts
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
   }, []);
 
   const handleClick = () => {
     setIsLoading(!isLoading);
   };
+
   return (
     <div className="home">
-      {/* <Loader
-        active={isLoading}
-        percentage={loadingPercentage}
-        handleClick={handleClick}
-      />
-      {!isLoading && ( */}
       <div className="container">
         <Sidebar />
-        <Chat />
+        {<Chat />}
       </div>
-      {/* )} */}
     </div>
   );
 };
+
 export default Home;

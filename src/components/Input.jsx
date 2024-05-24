@@ -1,8 +1,8 @@
-import { AttachFile } from "@mui/icons-material";
-import { AddPhotoAlternate } from "@mui/icons-material";
+import { AttachFile, AddPhotoAlternate } from "@mui/icons-material";
 import { useContext, useState } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { ChatContext } from "../context/ChatContext";
+import Compressor from "image-compressor.js";
 import {
   arrayUnion,
   doc,
@@ -14,65 +14,60 @@ import { db, storage } from "../firebase";
 import { v4 as uuid } from "uuid";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 
-const Input = () => {
+const Input = ({ setImage, setIsImg, setImgUrl }) => {
   const [text, setText] = useState("");
-  const [img, setImg] = useState(null);
 
   const { currentUser } = useContext(AuthContext);
   const { data } = useContext(ChatContext);
 
+  const handleFileChange = async (e) => {
+    const file = e.target.files[0];
+    const compressedFile = await new Compressor(file, {
+      quality: 0.6,
+      maxWidth: 800,
+      maxHeight: 600,
+      mimeType: "image/jpeg",
+      success(result) {
+        console.log("img compression success");
+        setIsImg(true);
+        setImgUrl(URL.createObjectURL(result));
+        setImage(result); // Set the selected image in the state
+      },
+      error(err) {
+        console.error("Image compression error:", err);
+      },
+    });
+  };
+
   const handleSend = async () => {
-    if (img) {
-      const storageRef = ref(storage, uuid());
-
-      const uploadTask = uploadBytesResumable(storageRef, img);
-
-      uploadTask.on(
-        (error) => {
-          //TODO:Handle Error
-        },
-        () => {
-          getDownloadURL(uploadTask.snapshot.ref).then(async (downloadURL) => {
-            await updateDoc(doc(db, "chats", data.chatId), {
-              messages: arrayUnion({
-                id: uuid(),
-                text,
-                senderId: currentUser.uid,
-                date: Timestamp.now(),
-                img: downloadURL,
-              }),
-            });
-          });
-        }
-      );
-    } else {
-      await updateDoc(doc(db, "chats", data.chatId), {
+    text &&
+      (await updateDoc(doc(db, "chats", data.chatId), {
         messages: arrayUnion({
           id: uuid(),
           text,
           senderId: currentUser.uid,
           date: Timestamp.now(),
         }),
-      });
-    }
+      }));
 
     await updateDoc(doc(db, "userChats", currentUser.uid), {
       [data.chatId + ".lastMessage"]: {
-        text,
+        text: text || "Image",
       },
       [data.chatId + ".date"]: serverTimestamp(),
     });
 
     await updateDoc(doc(db, "userChats", data.user.uid), {
       [data.chatId + ".lastMessage"]: {
-        text,
+        text: text || "Image",
       },
       [data.chatId + ".date"]: serverTimestamp(),
     });
 
     setText("");
-    setImg(null);
+    setImage(null);
   };
+
   return (
     <div className="input">
       <input
@@ -82,15 +77,15 @@ const Input = () => {
         value={text}
       />
       <div className="send">
-        <AttachFile />
+        <AttachFile style={{ cursor: "pointer" }} />
         <input
           type="file"
           style={{ display: "none" }}
           id="file"
-          onChange={(e) => setImg(e.target.files[0])}
+          onChange={(e) => handleFileChange(e)}
         />
         <label htmlFor="file">
-          <AddPhotoAlternate />
+          <AddPhotoAlternate style={{ cursor: "pointer" }} />
         </label>
         <button onClick={handleSend}>Send</button>
       </div>

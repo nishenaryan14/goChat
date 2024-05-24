@@ -5,7 +5,6 @@ import { ChatContext } from "../context/ChatContext";
 const Message = ({ message }) => {
   const { currentUser } = useContext(AuthContext);
   const { data } = useContext(ChatContext);
-
   const ref = useRef();
 
   useEffect(() => {
@@ -29,7 +28,7 @@ const Message = ({ message }) => {
         <span>just now</span>
       </div>
       <div className="messageContent">
-        <p>{message.text}</p>
+        {message.text && <p>{message.text}</p>}
         {message.img && <img src={message.img} alt="" />}
       </div>
     </div>

@@ -18,24 +18,30 @@ const Search = () => {
   const [err, setErr] = useState(false);
 
   const { currentUser } = useContext(AuthContext);
-  const handleSearch = async () => {
+
+  const handleSearch = async (searchValue) => {
+    setUsername(searchValue);
     const q = query(
       collection(db, "users"),
-      where("displayName", "==", username)
+      where("displayName", "==", searchValue)
     );
     try {
       const querySnapshot = await getDocs(q);
-      querySnapshot.forEach((doc) => {
-        setUser(doc.data());
-      });
+      if (!querySnapshot.empty) {
+        // If there's a user matching the search value, set the user state
+        querySnapshot.forEach((doc) => {
+          setUser(doc.data());
+          setErr(false); // Reset error state if a user is found
+        });
+      } else {
+        setUser(null);
+        setErr(true); // Set error state if no user is found
+      }
     } catch (error) {
-      setErr(true);
+      console.error("Error searching for user:", error);
+      setErr(true); // Set error state if an error occurs
     }
   };
-  const handleKey = (e) => {
-    e.code === "Enter" && handleSearch();
-  };
-
   const handleSelect = async () => {
     //check whether the group(chats in firestore) exists ,if it does'nt then create new one
     const combinedId =
@@ -79,8 +85,7 @@ const Search = () => {
         <input
           type="text"
           placeholder="Find a user"
-          onKeyDown={handleKey}
-          onChange={(e) => setUsername(e.target.value)}
+          onChange={(e) => handleSearch(e.target.value)}
           value={username}
         />
       </div>
@@ -96,4 +101,5 @@ const Search = () => {
     </div>
   );
 };
+
 export default Search;
