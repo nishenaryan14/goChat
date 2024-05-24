@@ -352,6 +352,12 @@
       justify-content: space-between;
       padding: 10px;
       color: lightgray;
+
+      .chatName {
+        display: flex;
+        gap: 25px;
+        align-items: center;
+      }
     }
     .chatIcons {
       display: flex;

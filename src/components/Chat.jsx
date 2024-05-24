@@ -8,6 +8,7 @@ import {
 import Messages from "./Messages";
 import Input from "./Input";
 import { ChatContext } from "../context/ChatContext";
+import { Avatar } from "@mui/material";
 import Dialog from "./Dialog";
 import useMediaQuery from "@mui/material/useMediaQuery";
 
@@ -23,13 +24,21 @@ const Chat = ({ showChat, setShowChat }) => {
       {data.chatId ? (
         <>
           <div className="chatInfo">
-            {isSmallScreen && (
-              <ArrowBack
-                style={{ cursor: "pointer" }}
-                onClick={() => setShowChat(false)}
-              />
-            )}
-            <span>{data.user?.displayName || ""}</span>
+            <div className="chatName">
+              {isSmallScreen && (
+                <ArrowBack
+                  style={{ cursor: "pointer" }}
+                  onClick={() => setShowChat(false)}
+                />
+              )}
+              {isSmallScreen && (
+                <Avatar
+                  alt={data.user?.displayName}
+                  src={data.user?.photoURL}
+                />
+              )}
+              <span>{data.user?.displayName || ""}</span>
+            </div>
             <div className="chatIcons">
               <VideoCameraBack className="chatIconsItems" />
               <PersonAdd className="chatIconsItems" />
