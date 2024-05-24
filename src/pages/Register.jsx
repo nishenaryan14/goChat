@@ -5,18 +5,22 @@ import { doc, setDoc } from "firebase/firestore";
 import Add from "../img/addavatar.png";
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import CircularProgress from "@mui/material/CircularProgress";
+
 const Register = () => {
   const [err, setErr] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
     const displayName = e.target[0].value;
     const email = e.target[1].value;
     const password = e.target[2].value;
     const file = e.target[3].files[0];
     try {
       const res = await createUserWithEmailAndPassword(auth, email, password);
-
       const storageRef = ref(storage, displayName);
 
       await uploadBytesResumable(storageRef, file).then(() => {
@@ -33,17 +37,21 @@ const Register = () => {
               photoURL: downloadURL,
             });
             await setDoc(doc(db, "userChats", res.user.uid), {});
+            setIsLoading(false);
             navigate("/");
           } catch (error) {
             console.log(error);
             setErr(true);
+            setIsLoading(false);
           }
         });
       });
     } catch (err) {
       setErr(true);
+      setIsLoading(false);
     }
   };
+
   return (
     <div className="formContainer">
       <div className="formWrapper">
@@ -58,7 +66,14 @@ const Register = () => {
             <img src={Add} alt="" />
             <span>Add an avatar</span>
           </label>
-          <button type="submit">Sign Up</button>
+
+          {isLoading ? (
+            <button style={{ backgroundColor: "transparent" }}>
+              <CircularProgress />
+            </button>
+          ) : (
+            <button type="submit">Sign Up</button>
+          )}
           {err && <span>Something went wrong!</span>}
         </form>
         <p>
@@ -68,4 +83,5 @@ const Register = () => {
     </div>
   );
 };
+
 export default Register;
