@@ -1,40 +1,21 @@
 import Sidebar from "../components/Sidebar";
 import Chat from "../components/Chat";
 import { useEffect, useState } from "react";
-import Loader from "../components/Loader";
-import { AuthContext } from "../context/AuthContext";
+import useMediaQuery from "@mui/material/useMediaQuery";
 
 const Home = () => {
-  const [isLoading, setIsLoading] = useState(true);
-  const [resize, setResize] = useState(false);
-
-  useEffect(() => {
-    const handleResize = () => {
-      console.log("Resized!");
-      setResize(window.innerWidth <= 600);
-    };
-    console.log("Resize state:", resize);
-
-    // Add event listener for resize when viewport width is 600px or less
-    if (window.innerWidth <= 600) {
-      window.addEventListener("resize", handleResize);
-    }
-
-    // Cleanup: Remove event listener when component unmounts
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
-
-  const handleClick = () => {
-    setIsLoading(!isLoading);
-  };
+  const isSmallScreen = useMediaQuery("(max-width:660px)");
+  const [showChat, setShowChat] = useState(false);
 
   return (
     <div className="home">
       <div className="container">
-        <Sidebar />
-        {<Chat />}
+        {!isSmallScreen || !showChat ? (
+          <Sidebar setShowChat={setShowChat} />
+        ) : null}
+        {(!isSmallScreen || showChat) && (
+          <Chat showChat={showChat} setShowChat={setShowChat} />
+        )}
       </div>
     </div>
   );

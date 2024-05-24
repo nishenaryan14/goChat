@@ -1,18 +1,17 @@
-import { doc, onSnapshot } from "firebase/firestore";
-import React, { useContext, useEffect, useState } from "react";
-import { AuthContext } from "../context/AuthContext";
-import { ChatContext } from "../context/ChatContext";
-import { db } from "../firebase";
+import { useContext, useEffect, useState } from "react";
 import { Avatar } from "@mui/material";
+import { ChatContext } from "../context/ChatContext";
+import { AuthContext } from "../context/AuthContext";
+import { doc, onSnapshot } from "firebase/firestore";
+import { db } from "../firebase";
 import { StringAvatar } from "./Avatar";
-const Chats = () => {
-  const [chats, setChats] = useState({});
 
+const Chats = ({ setShowChat }) => {
+  const [chats, setChats] = useState({});
   const { currentUser } = useContext(AuthContext);
   const { dispatch } = useContext(ChatContext);
 
   useEffect(() => {
-    console.log(currentUser.displayName);
     const getChats = () => {
       const unsub = onSnapshot(doc(db, "userChats", currentUser.uid), (doc) => {
         setChats(doc.data());
@@ -28,6 +27,7 @@ const Chats = () => {
 
   const handleSelect = (u) => {
     dispatch({ type: "CHANGE_USER", payload: u });
+    setShowChat(true);
   };
 
   return (

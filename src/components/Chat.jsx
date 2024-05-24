@@ -1,21 +1,34 @@
 import { useContext, useState } from "react";
-import { VideoCameraBack, PersonAdd, MoreHoriz } from "@mui/icons-material";
+import {
+  VideoCameraBack,
+  PersonAdd,
+  MoreHoriz,
+  ArrowBack,
+} from "@mui/icons-material";
 import Messages from "./Messages";
 import Input from "./Input";
 import { ChatContext } from "../context/ChatContext";
 import Dialog from "./Dialog";
+import useMediaQuery from "@mui/material/useMediaQuery";
 
-const Chat = () => {
+const Chat = ({ showChat, setShowChat }) => {
   const { data } = useContext(ChatContext);
   const [image, setImage] = useState("");
   const [isImg, setIsImg] = useState(false);
   const [imgURL, setImgUrl] = useState("");
+  const isSmallScreen = useMediaQuery("(max-width:660px)");
 
   return (
     <div className="chat">
       {data.chatId ? (
         <>
           <div className="chatInfo">
+            {isSmallScreen && (
+              <ArrowBack
+                style={{ cursor: "pointer" }}
+                onClick={() => setShowChat(false)}
+              />
+            )}
             <span>{data.user?.displayName || ""}</span>
             <div className="chatIcons">
               <VideoCameraBack className="chatIconsItems" />
