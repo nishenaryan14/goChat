@@ -154,7 +154,7 @@
 }
 
 .home {
-  background-color: #202431;
+  // background-color: #202431;
   height: 100vh;
   width: 100vw;
   overflow: hidden;
@@ -163,8 +163,8 @@
   align-items: center;
 
   .container {
-    border: 1px solid white;
-    border-radius: 10px;
+    // border: 1px solid white;
+    // border-radius: 10px;
     width: 100%;
     height: 100%;
     display: flex;
@@ -189,9 +189,9 @@
       .logo {
         cursor: pointer;
         font-weight: bold;
-        @include tablet {
-          display: none;
-        }
+        // @include tablet {
+        //   display: none;
+        // }
       }
       .user {
         display: flex;
@@ -200,8 +200,8 @@
 
         img {
           background-color: #ddddf7;
-          height: 24px;
-          width: 24px;
+          height: 44px;
+          width: 44px;
           border-radius: 50%;
           object-fit: cover;
         }
@@ -290,7 +290,7 @@
       max-height: 480px;
       min-height: 300px;
       max-width: 80%;
-      min-width: 400px;
+      min-width: 380px;
       overflow: hidden;
       border-radius: 8px;
       box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.5);
@@ -298,12 +298,12 @@
 
     .dialogImg {
       position: relative;
-      height: 70%;
+      max-height: 240px;
       width: 100%;
       background-color: #f2f2f2;
       overflow-y: auto;
       display: flex;
-      align-items: center;
+      align-items: flex-start;
       justify-content: center;
     }
 

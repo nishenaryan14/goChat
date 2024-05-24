@@ -5,7 +5,7 @@ import { AuthContext } from "../context/AuthContext";
 import { Avatar } from "@mui/material";
 import { StringAvatar } from "./Avatar";
 import { ChatContext } from "../context/ChatContext";
-
+import LogoutIcon from "@mui/icons-material/Logout";
 const Navbar = () => {
   const { currentUser } = useContext(AuthContext);
 
@@ -14,12 +14,12 @@ const Navbar = () => {
       <span className="logo">Go Chat</span>
       <div className="user">
         {currentUser.photoURL ? (
-          <img src={currentUser.photoURL} alt="" />
+          <Avatar src={currentUser.photoURL} alt="" />
         ) : (
           <Avatar {...StringAvatar(currentUser.displayName)} />
         )}
         <span>{currentUser.displayName}</span>
-        <button onClick={() => signOut(auth)}>logout</button>
+        <LogoutIcon onClick={() => signOut(auth)} sx={{ cursor: "pointer" }} />
       </div>
     </div>
   );

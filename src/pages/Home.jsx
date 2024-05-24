@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import useMediaQuery from "@mui/material/useMediaQuery";
 
 const Home = () => {
-  const isSmallScreen = useMediaQuery("(max-width:660px)");
+  const isSmallScreen = useMediaQuery("(max-width:776px)");
   const [showChat, setShowChat] = useState(false);
 
   return (

@@ -17,7 +17,7 @@ const Chat = ({ showChat, setShowChat }) => {
   const [image, setImage] = useState("");
   const [isImg, setIsImg] = useState(false);
   const [imgURL, setImgUrl] = useState("");
-  const isSmallScreen = useMediaQuery("(max-width:660px)");
+  const isSmallScreen = useMediaQuery("(max-width:776px)");
 
   return (
     <div className="chat">
