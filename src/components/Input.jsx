@@ -3,7 +3,6 @@ import { useContext, useState } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { ChatContext } from "../context/ChatContext";
 import Compressor from "image-compressor.js";
-import EmojiPicker from "emoji-picker-react";
 import {
   arrayUnion,
   doc,
@@ -23,33 +22,44 @@ const Input = ({ setImage, setIsImg, setImgUrl }) => {
 
   const handleFileChange = async (e) => {
     const file = e.target.files[0];
-    const compressedFile = await new Compressor(file, {
-      quality: 0.6,
-      maxWidth: 800,
-      maxHeight: 600,
-      mimeType: "image/jpeg",
-      success(result) {
-        console.log("img compression success");
-        setIsImg(true);
-        setImgUrl(URL.createObjectURL(result));
-        setImage(result); // Set the selected image in the state
-      },
-      error(err) {
-        console.error("Image compression error:", err);
-      },
-    });
+
+    if (!file) {
+      console.error("No file selected.");
+      return;
+    }
+
+    try {
+      const compressedFile = await new Compressor(file, {
+        quality: 0.6,
+        maxWidth: 800,
+        maxHeight: 600,
+        mimeType: "image/jpeg",
+        success(result) {
+          console.log("Image compression success");
+          setIsImg(true);
+          setImgUrl(URL.createObjectURL(result));
+          setImage(result); // Set the selected image in the state
+        },
+        error(err) {
+          console.error("Image compression error:", err);
+        },
+      });
+    } catch (error) {
+      console.error("Error compressing image:", error);
+    }
   };
 
   const handleSend = async () => {
-    text &&
-      (await updateDoc(doc(db, "chats", data.chatId), {
-        messages: arrayUnion({
-          id: uuid(),
-          text,
-          senderId: currentUser.uid,
-          date: Timestamp.now(),
-        }),
-      }));
+    if (!text) return;
+
+    await updateDoc(doc(db, "chats", data.chatId), {
+      messages: arrayUnion({
+        id: uuid(),
+        text,
+        senderId: currentUser.uid,
+        date: Timestamp.now(),
+      }),
+    });
 
     await updateDoc(doc(db, "userChats", currentUser.uid), {
       [data.chatId + ".lastMessage"]: {
@@ -69,12 +79,19 @@ const Input = ({ setImage, setIsImg, setImgUrl }) => {
     setImage(null);
   };
 
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") {
+      handleSend();
+    }
+  };
+
   return (
     <div className="input">
       <input
         type="text"
         placeholder="Type something..."
         onChange={(e) => setText(e.target.value)}
+        onKeyDown={handleKeyDown}
         value={text}
       />
       <div className="send">

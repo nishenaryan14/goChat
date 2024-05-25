@@ -11,19 +11,33 @@ import { ChatContext } from "../context/ChatContext";
 import { Avatar } from "@mui/material";
 import Dialog from "./Dialog";
 import useMediaQuery from "@mui/material/useMediaQuery";
+import { getDownloadURL, ref } from "firebase/storage";
+import { storage } from "../firebase";
+import logo from "../img/gochatlogo.png";
 
 const Chat = ({ showChat, setShowChat }) => {
   const { data } = useContext(ChatContext);
   const [image, setImage] = useState("");
   const [isImg, setIsImg] = useState(false);
   const [imgURL, setImgUrl] = useState("");
+  const [logoUrl, setLogoUrl] = useState(""); // State for logo URL
   const isSmallScreen = useMediaQuery("(max-width:776px)");
 
-  // useEffect(() => {
-  //   console.log("Chat ID:", data?.chatId);
-  //   console.log(data?.chatId == "null");
-  //   console.log("User Data:", data?.user);
-  // }, [data?.chatId, data?.user]);
+  useEffect(() => {
+    // Fetch logo image URL from Firebase Storage
+    const fetchLogoUrl = async () => {
+      try {
+        const imageUrl = await getDownloadURL(
+          ref(storage, "chat-icon-removebg-preview.png")
+        );
+        setLogoUrl(imageUrl);
+      } catch (error) {
+        console.error("Error fetching logo URL:", error);
+      }
+    };
+
+    fetchLogoUrl();
+  }, []);
 
   return (
     <div className="chat">
@@ -62,6 +76,12 @@ const Chat = ({ showChat, setShowChat }) => {
         </>
       ) : (
         <div className="chatNotSelected">
+          {/* Use logoUrl for the logo image source */}
+          <img
+            src={logoUrl || logo}
+            alt="GoChat Logo"
+            style={{ height: "150px", width: "180px" }}
+          />
           <p>Please select a conversation</p>
         </div>
       )}
