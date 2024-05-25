@@ -23,7 +23,7 @@ export const ChatContextProvider = ({ children }) => {
       case "LOGOUT_USER":
         return {
           user: {},
-          chatId: null,
+          chatId: "null",
         };
       default:
         return state;

@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import {
   VideoCameraBack,
   PersonAdd,
@@ -19,9 +19,15 @@ const Chat = ({ showChat, setShowChat }) => {
   const [imgURL, setImgUrl] = useState("");
   const isSmallScreen = useMediaQuery("(max-width:776px)");
 
+  // useEffect(() => {
+  //   console.log("Chat ID:", data?.chatId);
+  //   console.log(data?.chatId == "null");
+  //   console.log("User Data:", data?.user);
+  // }, [data?.chatId, data?.user]);
+
   return (
     <div className="chat">
-      {data.chatId ? (
+      {data.chatId != "null" ? (
         <>
           <div className="chatInfo">
             <div className="chatName">
