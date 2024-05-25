@@ -1,17 +1,13 @@
 import { useContext, useEffect } from "react";
 import { Navigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
-import { ChatContext } from "../context/ChatContext";
 
 const ProtectedRoute = ({ children }) => {
-  const { currentUser } = useContext(AuthContext);
-  const { dispatch } = useContext(ChatContext);
+  const { currentUser, isLoading } = useContext(AuthContext);
 
-  useEffect(() => {
-    if (!currentUser) {
-      dispatch({ type: "LOGOUT_USER" });
-    }
-  }, [currentUser, dispatch]);
+  if (isLoading) {
+    return <div>Loading...</div>; // Or any loading indicator you prefer
+  }
 
   if (!currentUser) {
     return <Navigate to="/login" />;

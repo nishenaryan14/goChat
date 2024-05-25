@@ -11,7 +11,7 @@ export const AuthContextProvider = ({ children }) => {
   useEffect(() => {
     const unsub = onAuthStateChanged(auth, (user) => {
       setCurrentUser(user);
-      setIsLoading(false); // Update loading state after authentication state changes
+      setIsLoading(false);
     });
 
     return () => {

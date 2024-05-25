@@ -9,6 +9,7 @@ const Message = ({ message }) => {
 
   useEffect(() => {
     ref.current?.scrollIntoView({ behavior: "smooth" });
+    console.log(data.user.photoURL);
   }, [message]);
   // console.log(message);
   return (
