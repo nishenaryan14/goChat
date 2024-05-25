@@ -18,7 +18,7 @@ const Messages = () => {
         unSub = onSnapshot(docRef, (doc) => {
           if (doc.exists()) {
             setMessages(doc.data().messages);
-            console.log(messages);
+            // console.log(messages);
           } else {
             console.error("No such document!");
           }
