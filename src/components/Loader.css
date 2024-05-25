@@ -16,7 +16,7 @@
   /* padding-top: 500px; */
   background-repeat: no-repeat;
   background-size: cover;
-  background-image: url("https://miro.medium.com/v2/resize:fit:1400/0*6DP_xM5HWoEL73xf.png");
+  /* background-image: url("https://miro.medium.com/v2/resize:fit:1400/0*6DP_xM5HWoEL73xf.png"); */
   min-height: 100vh;
   min-width: 100vw;
 }
@@ -27,11 +27,31 @@
   margin-bottom: 0;
   transform: translateY(0); /* When active, move the loader up */
 }
-
+.chatLogo {
+  position: absolute;
+  left: 50%;
+  top: 40%;
+  transform: translate(-50%, -50%);
+  height: 250px;
+  width: 250px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+.loaderLogoText {
+  position: absolute;
+  left: 50%;
+  top: 63%;
+  transform: translate(-50%, -50%);
+  color: rgb(83, 4, 117);
+  font-size: 36px;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+  font-weight: 500;
+}
 .loaderProfile {
   position: absolute;
-  bottom: 130px;
-  left: 570px;
+  left: 50%;
+  top: 70%;
+  transform: translate(-50%);
   height: 100px;
   width: 100px;
   border-radius: 50%;
@@ -43,6 +63,7 @@
   border-radius: 5px;
   background-color: rgb(21, 157, 224);
   position: absolute;
-  bottom: 70px;
-  left: 570px;
+  left: 50%;
+  top: 87%;
+  transform: translate(-50%);
 }
