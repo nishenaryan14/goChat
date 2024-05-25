@@ -2,6 +2,8 @@ import { useContext, useEffect, useRef } from "react";
 import { formatDistanceToNow } from "date-fns";
 import { AuthContext } from "../context/AuthContext";
 import { ChatContext } from "../context/ChatContext";
+import { StringAvatar } from "./Avatar";
+import { Avatar } from "@mui/material";
 
 const Message = ({ message }) => {
   const { currentUser } = useContext(AuthContext);
@@ -10,6 +12,7 @@ const Message = ({ message }) => {
 
   useEffect(() => {
     ref.current?.scrollIntoView({ behavior: "smooth" });
+    console.log(data);
   }, [message]);
 
   const formatTimestamp = (timestamp) => {
@@ -29,14 +32,13 @@ const Message = ({ message }) => {
           message.senderId === currentUser.uid && "ownerInfo"
         }`}
       >
-        <img
-          src={
-            message.senderId === currentUser.uid
-              ? currentUser.photoURL
-              : data.user.photoURL
-          }
-          alt=""
-        />
+        {message.senderId === currentUser.uid ? (
+          <img src={currentUser.photoURL} alt="" />
+        ) : data.user.photoURL ? (
+          <img src={data.user.photoURL} alt="" />
+        ) : (
+          <Avatar {...StringAvatar(data.user.displayName)} />
+        )}
         <span>{formatTimestamp(message.date)}</span>
       </div>
       <div className="messageContent">
