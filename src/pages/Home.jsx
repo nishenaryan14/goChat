@@ -1,3 +1,4 @@
+import React from "react";
 import Sidebar from "../components/Sidebar";
 import Chat from "../components/Chat";
 import Loader from "../components/Loader"; // Import the Loader component
@@ -25,7 +26,7 @@ const Home = () => {
           }
           return prev + 1; // Adjust increment value and speed as needed
         });
-      }, 20); // Adjust the interval duration as needed
+      }, 20);
 
       return () => clearInterval(interval);
     }
