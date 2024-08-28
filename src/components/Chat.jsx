@@ -25,7 +25,6 @@ const Chat = ({ showChat, setShowChat }) => {
   const isSmallScreen = useMediaQuery("(max-width:776px)");
 
   useEffect(() => {
-    // Fetch logo image URL from Firebase Storage
     const fetchLogoUrl = async () => {
       try {
         const imageUrl = await getDownloadURL(
@@ -53,7 +52,7 @@ const Chat = ({ showChat, setShowChat }) => {
               {isSmallScreen && (
                 <ArrowBack
                   style={{ cursor: "pointer" }}
-                  onClick={() => setShowChat(false)} // Hide the chat when clicked
+                  onClick={() => setShowChat(false)}
                 />
               )}
               {isSmallScreen && (
@@ -81,7 +80,6 @@ const Chat = ({ showChat, setShowChat }) => {
         </>
       ) : (
         <div className="chatNotSelected">
-          {/* Use logoUrl for the logo image source */}
           <img
             src={logoUrl || logo}
             alt="GoChat Logo"
