@@ -1,4 +1,5 @@
-import { useContext, useEffect, useState } from "react";
+import PropTypes from "prop-types";
+import React, { useContext, useEffect, useState } from "react";
 import {
   VideoCameraBack,
   PersonAdd,
@@ -39,16 +40,20 @@ const Chat = ({ showChat, setShowChat }) => {
     fetchLogoUrl();
   }, []);
 
+  if (!showChat) {
+    return null;
+  }
+
   return (
     <div className="chat">
-      {data.chatId != "null" ? (
+      {data.chatId !== "null" ? (
         <>
           <div className="chatInfo">
             <div className="chatName">
               {isSmallScreen && (
                 <ArrowBack
                   style={{ cursor: "pointer" }}
-                  onClick={() => setShowChat(false)}
+                  onClick={() => setShowChat(false)} // Hide the chat when clicked
                 />
               )}
               {isSmallScreen && (
@@ -96,6 +101,11 @@ const Chat = ({ showChat, setShowChat }) => {
       )}
     </div>
   );
+};
+
+Chat.propTypes = {
+  showChat: PropTypes.bool.isRequired,
+  setShowChat: PropTypes.func.isRequired,
 };
 
 export default Chat;

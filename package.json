@@ -13,9 +13,13 @@
     "date-fns": "^3.6.0",
     "emoji-picker-react": "^4.9.3",
     "firebase": "^10.5.2",
+    "firebase-admin": "^12.1.1",
+    "firebase-functions": "^5.0.1",
     "image-compressor.js": "^1.1.4",
+    "prop-types": "^15.8.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-hot-toast": "^2.4.1",
     "react-router-dom": "^6.18.0",
     "react-scripts": "5.0.1",
     "sass": "^1.69.5",
@@ -45,5 +49,12 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
+    "eslint": "^8.57.0",
+    "eslint-config-google": "^0.14.0",
+    "eslint-plugin-react": "^7.34.2",
+    "tailwindcss": "^3.4.3"
   }
 }
